@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactApexChart from "react-apexcharts";
 import dummyData from "../dummyData";
 
 const BrushChart = () => {
-  const [state, setState] = useState({
+  const arrayOfDate = dummyData.map((data) => data.date);
+  const arrayOfRevenue = dummyData.map((data) => data.revenue);
+  const state = {
     options: {
+      chart: {
+        id: "chart1",
+        type: "line",
+        toolbar: {
+          autoSelected: "pan",
+          show: false,
+        },
+      },
       xaxis: {
         type: "datetime",
-        categories: dummyData.map((data) => data.date),
+        categories: arrayOfDate,
       },
       annotations: {
         yaxis: [
@@ -52,20 +62,60 @@ const BrushChart = () => {
     },
     series: [
       {
-        name: "series-1",
-        data: dummyData.map((data) => data.revenue),
+        data: arrayOfRevenue,
       },
     ],
-  });
+    seriesLine: [
+      {
+        data: arrayOfRevenue,
+      },
+    ],
+    optionsLine: {
+      chart: {
+        id: "chart2",
+        type: "area",
+        brush: {
+          target: "chart1",
+          enabled: true,
+        },
+        selection: {
+          enabled: true,
+          xaxis: {
+            min: new Date("1 Aug 2022").getTime(),
+            max: new Date("10 Aug 2022").getTime(),
+          },
+        },
+      },
+      xaxis: {
+        type: "datetime",
+        tooltip: {
+          enabled: false,
+        },
+        categories: arrayOfDate,
+      },
+    },
+  };
 
   return (
     <div>
-      <ReactApexChart
-        options={state.options}
-        series={state.series}
-        type="line"
-        width="900"
-      />
+      <div>
+        <ReactApexChart
+          options={state.options}
+          series={state.series}
+          type="line"
+          width="900"
+          height="300"
+        />
+      </div>
+      <div>
+        <ReactApexChart
+          options={state.optionsLine}
+          series={state.seriesLine}
+          type="area"
+          width="900"
+          height="300"
+        />
+      </div>
     </div>
   );
 };
