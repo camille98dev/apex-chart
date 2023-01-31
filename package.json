@@ -1,6 +1,6 @@
 {
   "name": "apex-chart",
-  "homepage": "https://camille98dev.github.io/apex-chart.git",
+  "homepage": "https://camille98dev.github.io/apex-chart",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
